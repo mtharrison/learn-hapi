@@ -19,6 +19,7 @@ const server = Hapi.server({
 const start = async () => {
 
     await server.register(Inert);
+    await server.register(Vision);
 
     server.views({
         relativeTo: Path.join(__dirname, 'templates'),
@@ -30,7 +31,7 @@ const start = async () => {
         partialsPath: 'partials',
         context: {
             ads: Ads,
-            title
+            title: 'THOUGHTS BY ME'
         },
         helpersPath: 'helpers'
     });
@@ -43,17 +44,6 @@ const start = async () => {
             return h.view('home', {
                 posts: Posts
             });
-        }
-    });
-
-
-
-    server.route({
-        method: 'GET',
-        path: '/contact',
-        handler: function (request, h) {
-
-            return h.view('contact');
         }
     });
 

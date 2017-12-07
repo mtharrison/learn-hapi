@@ -1,5 +1,5 @@
 {
-  "name": "serving-static-files",
+  "name": "2-serving-static-files",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^17.1.1",
-    "inert": "^5.0.1"
+    "hapi": "17.x.x",
+    "inert": "5.x.x"
   }
 }
