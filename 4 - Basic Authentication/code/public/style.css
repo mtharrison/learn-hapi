@@ -1,0 +1,37 @@
+a {
+    color: #363636;
+    text-decoration: underline
+}
+
+header {
+    border-bottom: 1px solid #363636;
+}
+
+section {
+    margin-top: 30px;
+}
+
+.post-summary:not(:last-child) {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.post p {
+    margin-bottom: 10px;
+}
+
+.ad {
+    text-align: center;
+    border: 1px solid #cccccc;
+    margin: 0px 0px 15px 0px;
+}
+
+.ad p {
+    padding: 10px 0px;
+}
+
+footer {
+    margin-top: 30px;
+    border-top: 1px solid #363636;
+    padding: 20px 0px;
+}

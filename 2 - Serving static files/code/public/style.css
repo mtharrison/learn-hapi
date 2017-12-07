@@ -1,0 +1,20 @@
+body {
+    text-align: center;
+    font-family: verdana, sans-serif;
+    background-color: #333333;
+    color: #aaaaaa;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-size: 48pt;
+}
+
+p.joke {
+    font-size: 36pt;
+    color: #ffffff;
+    width: 60%;
+    margin: auto;
+    margin-top: 100px;
+    line-height: 1.5em;
+}

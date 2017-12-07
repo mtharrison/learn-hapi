@@ -1,0 +1,8 @@
+node_modules
+*.screenflow
+*.screenflow/*
+_ignore
+__ignore
+assets
+package-lock.json
+shared-assets
