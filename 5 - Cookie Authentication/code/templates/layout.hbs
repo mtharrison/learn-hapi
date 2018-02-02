@@ -22,7 +22,12 @@
                             <div class="navbar-end">
                                 <a class="navbar-item" href="/">Home</a>
                                 <a class="navbar-item" href="/contact">Contact</a>
-                                <a class="navbar-item" href="/restricted">Restricted</a>
+                                {{#if user}}
+                                    <a class="navbar-item" href="/restricted">Restricted</a>
+                                    <a class="navbar-item" href="/logout">Logout (Logged in as {{user.username}})</a>
+                                {{else}}
+                                    <a class="navbar-item" href="/login">Login</a>
+                                {{/if}}
                             </div>
                         </div>
                     </nav>

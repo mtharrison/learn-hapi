@@ -1,5 +1,7 @@
+const Bcrypt = require('bcrypt');
 const Boom = require('boom');
 const Hapi = require('hapi');
+const HapiAuthCookie = require('hapi-auth-cookie');
 const Inert = require('inert');
 const Path = require('path');
 const Vision = require('vision');
@@ -21,6 +23,22 @@ const start = async () => {
 
     await server.register(Inert);
     await server.register(Vision);
+    await server.register(HapiAuthCookie);
+
+    server.auth.strategy('restricted', 'cookie', {
+        password: 'Td2sXhE4Eghk8MBA3X96hgMqd66k8r2P',
+        cookie: 'session',
+        isSecure: false,
+        redirectTo: '/login',
+        redirectOnTry: false,
+        validateFunc: (request, cookie) => {
+
+            const user = Users[cookie.username];
+            return { valid: user !== undefined, credentials: user };
+        }
+    });
+
+    server.auth.default({ strategy: 'restricted', mode: 'try' });
 
     server.views({
         relativeTo: Path.join(__dirname, 'templates'),
@@ -30,9 +48,13 @@ const start = async () => {
         isCached: false,
         layout: true,
         partialsPath: 'partials',
-        context: {
-            ads: Ads,
-            title: 'THOUGHTS BY ME'
+        context: (request) => {
+
+            return {
+                ads: Ads,
+                title: 'THOUGHTS BY ME',
+                user: request.auth.credentials
+            };
         },
         helpersPath: 'helpers'
     });
@@ -49,9 +71,54 @@ const start = async () => {
     server.route({
         method: 'GET',
         path: '/restricted',
+        options: {
+            auth: {
+                strategy: 'restricted',
+                mode: 'required'
+            }
+        },
         handler: function (request, h) {
 
             return h.view('restricted');
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/login',
+        handler: function (request, h) {
+
+            return h.view('login');
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/logout',
+        handler: function (request, h) {
+
+            request.cookieAuth.clear();
+            return h.redirect('/');
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/login',
+        handler: async function (request, h) {
+
+            const { username, password } = request.payload;
+            const user = Users[username];
+
+            if (!user ||
+                !await Bcrypt.compare(password, user.password)) {
+
+                return h.view('login', { error: true });
+            }
+
+            request.cookieAuth.set({ username });
+
+            return h.redirect('/restricted');
         }
     });
 
